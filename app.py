@@ -181,7 +181,7 @@ def main():
     # Active Learning Section
     st.sidebar.markdown("---")
     st.sidebar.header("Active Learning")
-    yolo_model_path = Path("runs/detect/cell_detector/weights/best.pt")
+    yolo_model_path = Path("runs/segment/cell_segmenter/weights/best.pt")
     if yolo_model_path.exists():
         st.sidebar.success(f"YOLO model found ({yolo_model_path.stat().st_size / 1024 / 1024:.1f} MB)")
     else:
@@ -209,7 +209,8 @@ def main():
             result = subprocess.run(
                 [sys.executable, "train_yolo.py", "--epochs", "50", "--imgsz", "1024", "--batch", "4"],
                 capture_output=True, text=True,
-                cwd=str(Path(".").resolve())
+                cwd=str(Path(".").resolve()),
+                timeout=3600  # 1 hour max
             )
             if result.returncode == 0:
                 st.sidebar.success("Training complete!")
@@ -281,6 +282,9 @@ def main():
                 
                 cell_overlay = draw_overlay(img, filtered_cell_masks, [255, 255, 0])
                 io.imsave(OUTPUT_DIR / "cell_overlay_filtered.jpg", cell_overlay, check_contrast=False)
+                
+                # Save mask as .npy for dataset builder
+                np.save(OUTPUT_DIR / f"cell_mask_{img_path.stem}.npy", filtered_cell_masks)
                 
                 # QC Overlay (Cells yellow, Nuclei cyan)
                 qc_overlay = draw_overlay(cell_overlay, filtered_nuc_masks, [0, 255, 255])

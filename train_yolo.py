@@ -1,6 +1,6 @@
 # train_yolo.py
 """
-Trains a YOLOv8 detection model on the dataset built by build_training_dataset.py.
+Trains a YOLOv8 SEGMENTATION model on the polygon dataset built by build_training_dataset.py.
 
 Usage:
     python train_yolo.py
@@ -14,8 +14,8 @@ from ultralytics import YOLO
 
 def train(epochs=50, imgsz=1024, batch=4, model_size="n"):
     """
-    Train YOLOv8 on the cell detection dataset.
-    
+    Train YOLOv8 segmentation model on the cell dataset.
+
     Args:
         epochs: Number of training epochs.
         imgsz: Image size for training (1024 recommended for pathology).
@@ -28,11 +28,11 @@ def train(epochs=50, imgsz=1024, batch=4, model_size="n"):
         print("Run 'python build_training_dataset.py' first.")
         return None
 
-    model_name = f"yolov8{model_size}.pt"
-    print(f"Loading pretrained model: {model_name}")
+    model_name = f"yolov8{model_size}-seg.pt"
+    print(f"Loading pretrained segmentation model: {model_name}")
     model = YOLO(model_name)
 
-    print(f"\nStarting training:")
+    print(f"\nStarting SEGMENTATION training:")
     print(f"  Epochs: {epochs}")
     print(f"  Image size: {imgsz}")
     print(f"  Batch size: {batch}")
@@ -41,29 +41,30 @@ def train(epochs=50, imgsz=1024, batch=4, model_size="n"):
 
     results = model.train(
         data=str(data_yaml.resolve()),
+        task="segment",
         epochs=epochs,
         imgsz=imgsz,
         batch=batch,
-        patience=10,        # Early stopping
+        patience=10,
         save=True,
-        project="runs/detect",
-        name="cell_detector",
-        exist_ok=True,       # Overwrite previous run
+        project="runs/segment",
+        name="cell_segmenter",
+        exist_ok=True,
         verbose=True,
     )
 
-    best_weights = Path("runs/detect/cell_detector/weights/best.pt")
+    best_weights = Path("runs/segment/cell_segmenter/weights/best.pt")
     if best_weights.exists():
         print(f"\nTraining complete!")
         print(f"Best model saved to: {best_weights.resolve()}")
     else:
-        print("\nTraining finished but best.pt not found. Check runs/detect/cell_detector/")
+        print("\nTraining finished but best.pt not found. Check runs/segment/cell_segmenter/")
 
     return results
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Train YOLOv8 cell detector")
+    parser = argparse.ArgumentParser(description="Train YOLOv8 cell segmenter")
     parser.add_argument("--epochs", type=int, default=50)
     parser.add_argument("--imgsz", type=int, default=1024)
     parser.add_argument("--batch", type=int, default=4)
