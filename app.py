@@ -9,6 +9,8 @@ import plotly.express as px
 import numpy as np
 import streamlit.components.v1 as components
 import json
+import subprocess
+import sys
 
 from cellpose_count_cells import (
     find_sample_image,
@@ -172,8 +174,49 @@ def main():
         max_nuc_area = st.number_input("Max Nucleus Area (px)", value=10000, step=100)
 
     st.sidebar.markdown("---")
+    seg_backend = st.sidebar.radio("Segmentation Backend", ["Cellpose", "Trained YOLO"], index=0)
     do_sweep = st.sidebar.checkbox("Run Parameter Sweep", value=False)
     run_btn = st.sidebar.button("Run Segmentation Pipeline", type="primary")
+
+    # Active Learning Section
+    st.sidebar.markdown("---")
+    st.sidebar.header("Active Learning")
+    yolo_model_path = Path("runs/detect/cell_detector/weights/best.pt")
+    if yolo_model_path.exists():
+        st.sidebar.success(f"YOLO model found ({yolo_model_path.stat().st_size / 1024 / 1024:.1f} MB)")
+    else:
+        st.sidebar.info("No trained YOLO model yet.")
+
+    build_ds_btn = st.sidebar.button("Build Dataset from Corrections")
+    retrain_btn = st.sidebar.button("Retrain YOLO Model")
+
+    if build_ds_btn:
+        with st.spinner("Building training dataset..."):
+            result = subprocess.run(
+                [sys.executable, "build_training_dataset.py"],
+                capture_output=True, text=True,
+                cwd=str(Path(".").resolve())
+            )
+            if result.returncode == 0:
+                st.sidebar.success("Dataset built!")
+                st.sidebar.code(result.stdout[-500:] if len(result.stdout) > 500 else result.stdout)
+            else:
+                st.sidebar.error("Dataset build failed.")
+                st.sidebar.code(result.stderr[-500:])
+
+    if retrain_btn:
+        with st.spinner("Training YOLO model... This may take 10-20 minutes."):
+            result = subprocess.run(
+                [sys.executable, "train_yolo.py", "--epochs", "50", "--imgsz", "1024", "--batch", "4"],
+                capture_output=True, text=True,
+                cwd=str(Path(".").resolve())
+            )
+            if result.returncode == 0:
+                st.sidebar.success("Training complete!")
+                st.sidebar.code(result.stdout[-500:] if len(result.stdout) > 500 else result.stdout)
+            else:
+                st.sidebar.error("Training failed.")
+                st.sidebar.code(result.stderr[-500:])
 
     try:
         img_path = find_sample_image(INPUT_DIR)
@@ -213,12 +256,16 @@ def main():
                 io.imsave(OUTPUT_DIR / "nuclei_overlay_filtered.jpg", draw_overlay(img, filtered_nuc_masks, [0, 255, 255]), check_contrast=False)
 
                 # CELLS
-                st.toast("Running Cell Segmentation...")
-                if do_sweep:
-                    st.info("Running parameter sweep... Please wait.")
-                    run_sweep(cyto_preprocessed, img)
-
-                raw_cell_masks = run_cellpose(cyto_preprocessed, "cyto3", cell_diameter, flow_threshold, cellprob_threshold)
+                if seg_backend == "Trained YOLO":
+                    st.toast("Running YOLO Inference...")
+                    from inference_yolo import run_yolo_inference
+                    raw_cell_masks = run_yolo_inference(img)
+                else:
+                    st.toast("Running Cellpose Cell Segmentation...")
+                    if do_sweep:
+                        st.info("Running parameter sweep... Please wait.")
+                        run_sweep(cyto_preprocessed, img)
+                    raw_cell_masks = run_cellpose(cyto_preprocessed, "cyto3", cell_diameter, flow_threshold, cellprob_threshold)
                 
                 if do_watershed:
                     st.toast("Running Nuclei-seeded Watershed...")
