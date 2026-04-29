@@ -14,7 +14,7 @@ import cv2
 from ultralytics import YOLO
 
 
-DEFAULT_MODEL_PATH = Path("runs/segment/cell_segmenter/weights/best.pt")
+DEFAULT_MODEL_PATH = Path("runs/cell_segmenter/weights/best.pt")
 
 
 def run_yolo_inference(img, model_path=DEFAULT_MODEL_PATH, conf=0.25, imgsz=1024):

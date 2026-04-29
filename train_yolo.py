@@ -39,6 +39,9 @@ def train(epochs=50, imgsz=1024, batch=4, model_size="n"):
     print(f"  Dataset: {data_yaml.resolve()}")
     print()
 
+    save_dir = Path("runs/cell_segmenter")
+    save_dir.mkdir(parents=True, exist_ok=True)
+
     results = model.train(
         data=str(data_yaml.resolve()),
         task="segment",
@@ -47,18 +50,23 @@ def train(epochs=50, imgsz=1024, batch=4, model_size="n"):
         batch=batch,
         patience=10,
         save=True,
-        project="runs/segment",
-        name="cell_segmenter",
+        save_dir=str(save_dir),
         exist_ok=True,
         verbose=True,
     )
 
-    best_weights = Path("runs/segment/cell_segmenter/weights/best.pt")
+    best_weights = save_dir / "weights" / "best.pt"
     if best_weights.exists():
         print(f"\nTraining complete!")
         print(f"Best model saved to: {best_weights.resolve()}")
     else:
-        print("\nTraining finished but best.pt not found. Check runs/segment/cell_segmenter/")
+        print(f"\nTraining finished. Searching for model...")
+        import glob
+        found = glob.glob("runs/**/best.pt", recursive=True)
+        if found:
+            print(f"Model found at: {found[0]}")
+        else:
+            print("WARNING: best.pt not found anywhere in runs/")
 
     return results
 

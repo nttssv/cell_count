@@ -181,7 +181,7 @@ def main():
     # Active Learning Section
     st.sidebar.markdown("---")
     st.sidebar.header("Active Learning")
-    yolo_model_path = Path("runs/segment/cell_segmenter/weights/best.pt")
+    yolo_model_path = Path("runs/cell_segmenter/weights/best.pt")
     if yolo_model_path.exists():
         st.sidebar.success(f"YOLO model found ({yolo_model_path.stat().st_size / 1024 / 1024:.1f} MB)")
     else:
