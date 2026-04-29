@@ -25,10 +25,9 @@ streamlit run app.py
 Cellpose_testing/
 ├── app.py                         # Streamlit dashboard (main UI)
 ├── cellpose_count_cells.py        # Core segmentation pipeline
-├── build_training_dataset.py      # Converts corrections → YOLO training data
-├── train_yolo.py                  # YOLOv8 training script
-├── inference_yolo.py              # YOLOv8 inference → instance mask
-├── cellpose_count_cells_V2.py     # Legacy/experimental script (unused)
+├── build_training_dataset.py      # Converts corrections → YOLO segmentation labels
+├── train_yolo.py                  # YOLOv8-seg training script
+├── inference_yolo.py              # YOLOv8-seg inference → instance mask
 ├── .gitignore
 │
 ├── sample/                        # Input histology images (place .png/.jpg here)
@@ -46,6 +45,7 @@ Cellpose_testing/
 │   ├── nuclei_overlay_filtered.jpg    # Cyan nuclei boundaries on original
 │   ├── qc_overlay_combined.jpg    # Both overlays combined (QC)
 │   ├── cell_measurements.csv      # Per-cell morphometry + confidence
+│   ├── cell_mask_*.npy            # Saved instance masks for dataset building
 │   ├── nuclei_measurements.csv    # Per-nucleus morphometry
 │   └── sweep/                     # Parameter sweep results
 │       ├── sweep_results.csv
@@ -57,7 +57,7 @@ Cellpose_testing/
 │   └── labels/{train,val}/
 │
 ├── runs/                          # YOLO training runs (auto-generated, gitignored)
-│   └── detect/cell_detector/weights/best.pt
+│   └── segment/cell_segmenter/weights/best.pt
 │
 └── venv/                          # Python virtual environment (gitignored)
 ```
@@ -109,28 +109,29 @@ The main user interface. Imports functions from `cellpose_count_cells.py` and pr
 
 ---
 
-### `build_training_dataset.py` — Annotation → YOLO Labels
+### `build_training_dataset.py` — Annotation → YOLO Segmentation Labels
 
-Converts manual corrections into YOLO-format training data:
+Converts Cellpose masks + manual corrections into YOLO segmentation polygon labels:
 
-1. Loads images from `sample/`, masks from `output/`, corrections from `corrections/`
-2. **Green annotations** (Missed Cell) → new bounding box label added
-3. **Red annotations** (False Positive) → overlapping predicted box removed
-4. Remaining Cellpose detections kept as positive labels
-5. Outputs `datasets/` with `data.yaml`, `images/{train,val}/`, `labels/{train,val}/`
-6. Auto splits 80% train / 20% val
+1. Loads images from `sample/`, masks (`.npy`) from `output/`, corrections from `corrections/`
+2. **Cellpose mask regions** → contour polygons extracted via `skimage.measure.find_contours()`
+3. **Green annotations** (Missed Cell) → freedraw points used directly as polygon; point clicks → 16-point circle polygon
+4. **Red annotations** (False Positive) → overlapping mask region removed from labels
+5. Label format per line: `class x1 y1 x2 y2 x3 y3 ...` (normalized 0–1)
+6. Outputs `datasets/` with `data.yaml`, `images/{train,val}/`, `labels/{train,val}/`
+7. Auto splits 80% train / 20% val
 
 **Run:** `python build_training_dataset.py`
 
 ---
 
-### `train_yolo.py` — YOLOv8 Model Training
+### `train_yolo.py` — YOLOv8 Segmentation Training
 
-Trains a YOLOv8 nano detection model on the generated dataset.
+Trains a YOLOv8 nano **segmentation** model on the polygon dataset.
 
-- Uses `ultralytics` Python API
+- Uses `ultralytics` Python API with `yolov8n-seg.pt`
 - Defaults: 50 epochs, imgsz=1024, batch=4 (safe for M1 Mac 8GB)
-- Saves best weights to `runs/detect/cell_detector/weights/best.pt`
+- Saves best weights to `runs/segment/cell_segmenter/weights/best.pt`
 - Supports early stopping (patience=10)
 
 **Run:**
@@ -141,14 +142,15 @@ python train_yolo.py --epochs 100 --imgsz 640 # custom
 
 ---
 
-### `inference_yolo.py` — YOLO Inference → Instance Mask
+### `inference_yolo.py` — YOLO Segmentation → Instance Mask
 
-Bridges YOLOv8 predictions back into the existing pipeline:
+Bridges YOLOv8 segmentation predictions back into the existing pipeline:
 
-1. Loads trained model from `runs/detect/cell_detector/weights/best.pt`
+1. Loads trained model from `runs/segment/cell_segmenter/weights/best.pt`
 2. Runs inference with configurable confidence threshold
-3. Converts bounding box detections into a labeled instance mask (`np.array`, same format as Cellpose output)
-4. The mask then flows through the same filtering → validation → measurement → overlay pipeline
+3. Extracts pixel-level masks from `results[0].masks.data`, resizes to original dimensions
+4. Converts to a labeled instance mask (`np.array`, same format as Cellpose output)
+5. The mask flows through the same filtering → validation → measurement → overlay pipeline
 
 **Run standalone:** `python inference_yolo.py`
 
