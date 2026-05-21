@@ -219,6 +219,90 @@ def main():
                 st.sidebar.error("Training failed.")
                 st.sidebar.code(result.stderr[-500:])
 
+    st.sidebar.markdown("---")
+    st.sidebar.header("Biologically Constrained Active Learning")
+    bio_output_dir = Path(st.sidebar.text_input("Biology QC output", "output"))
+    bio_max_rounds = st.sidebar.number_input("Bio-QC max rounds", min_value=1, max_value=50, value=10, step=1)
+    bio_epochs = st.sidebar.number_input("Bio-QC YOLO epochs", min_value=1, max_value=500, value=25, step=1)
+    bio_batch = st.sidebar.number_input("Bio-QC YOLO batch", min_value=1, max_value=64, value=4, step=1)
+    bio_imgsz = st.sidebar.number_input("Bio-QC YOLO image size", min_value=128, max_value=2048, value=640, step=32)
+    bio_skip_training = st.sidebar.checkbox("Bio-QC build/QC only", value=False)
+    bio_dry_run = st.sidebar.checkbox("Bio-QC dry run", value=False)
+    run_bio_loop = st.sidebar.button("Run Auto-Training Loop")
+
+    if run_bio_loop:
+        cmd = [
+            sys.executable,
+            "auto_train_loop.py",
+            "--max-rounds",
+            str(int(bio_max_rounds)),
+            "--epochs",
+            str(int(bio_epochs)),
+            "--batch",
+            str(int(bio_batch)),
+            "--imgsz",
+            str(int(bio_imgsz)),
+            "--output-dir",
+            str(bio_output_dir),
+            "--dataset-dir",
+            str(bio_output_dir / "active_learning_datasets"),
+        ]
+        if bio_skip_training:
+            cmd.append("--skip-training")
+        if bio_dry_run:
+            cmd.append("--dry-run")
+
+        progress_status = st.empty()
+        progress_log = st.empty()
+        progress_status.info("Starting biologically constrained active-learning loop...")
+        process = subprocess.Popen(
+            cmd,
+            cwd=str(Path(".").resolve()),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1,
+        )
+        lines = []
+        if process.stdout is not None:
+            for line in process.stdout:
+                lines.append(line.rstrip())
+                progress_log.code("\n".join(lines[-60:]))
+                if "Starting active-learning round" in line:
+                    progress_status.info(line.strip())
+        return_code = process.wait()
+        if return_code == 0:
+            progress_status.success("Biologically constrained loop completed.")
+            best_model = Path("runs/cell_segmenter/weights/best.pt")
+            if best_model.exists():
+                st.session_state["best_yolo_model_path"] = str(best_model.resolve())
+                st.sidebar.success(f"Best model ready: {best_model}")
+        else:
+            progress_status.error(f"Auto-training loop failed with exit code {return_code}.")
+
+    bio_training_log = bio_output_dir / "training_log.csv"
+    if bio_training_log.exists():
+        st.subheader("Biologically Constrained Active-Learning Metrics")
+        st.dataframe(pd.read_csv(bio_training_log).tail(10), use_container_width=True)
+
+    qc_dirs = sorted(bio_output_dir.glob("qc_round_*"))
+    if qc_dirs:
+        latest_qc = qc_dirs[-1]
+        st.subheader(f"Latest Biological QC: {latest_qc.name}")
+        panel_paths = sorted(latest_qc.glob("*_morphology_qc_panel.png"))
+        rejected_paths = sorted(latest_qc.glob("*_rejected_nuclei_overlay.png"))
+        parenchyme_paths = sorted(latest_qc.glob("*_parenchyme_overlay.png"))
+        qc_cols = st.columns(3)
+        if panel_paths:
+            with qc_cols[0]:
+                st.image(str(panel_paths[0]), caption="Morphology QC panel", use_container_width=True)
+        if rejected_paths:
+            with qc_cols[1]:
+                st.image(str(rejected_paths[0]), caption="Rejected nuclei overlay", use_container_width=True)
+        if parenchyme_paths:
+            with qc_cols[2]:
+                st.image(str(parenchyme_paths[0]), caption="Parenchyme overlay", use_container_width=True)
+
     try:
         img_path = find_sample_image(INPUT_DIR)
         st.sidebar.success(f"Image loaded: {img_path.name}")

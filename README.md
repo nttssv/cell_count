@@ -28,6 +28,8 @@ Cellpose_testing/
 ├── build_training_dataset.py      # Converts corrections → YOLO segmentation labels
 ├── train_yolo.py                  # YOLOv8-seg training script
 ├── inference_yolo.py              # YOLOv8-seg inference → instance mask
+├── morphology_qc.py               # Adrenal H&E biological morphology QC
+├── auto_train_loop.py             # Biology-constrained active-learning loop
 ├── .gitignore
 │
 ├── sample/                        # Input histology images (place .png/.jpg here)
@@ -47,6 +49,8 @@ Cellpose_testing/
 │   ├── cell_measurements.csv      # Per-cell morphometry + confidence
 │   ├── cell_mask_*.npy            # Saved instance masks for dataset building
 │   ├── nuclei_measurements.csv    # Per-nucleus morphometry
+│   ├── training_log.csv           # Biology-aware active-learning log
+│   ├── qc_round_*/                # Active-learning QC overlays and review queues
 │   └── sweep/                     # Parameter sweep results
 │       ├── sweep_results.csv
 │       └── sweep_d*_f*_p*.jpg
@@ -55,6 +59,8 @@ Cellpose_testing/
 │   ├── data.yaml
 │   ├── images/{train,val}/
 │   └── labels/{train,val}/
+│
+├── output/active_learning_datasets/ # Round-specific YOLO datasets
 │
 ├── runs/                          # YOLO training runs (auto-generated, gitignored)
 │   └── segment/cell_segmenter/weights/best.pt
@@ -153,6 +159,46 @@ Bridges YOLOv8 segmentation predictions back into the existing pipeline:
 5. The mask flows through the same filtering → validation → measurement → overlay pipeline
 
 **Run standalone:** `python inference_yolo.py`
+
+---
+
+### `morphology_qc.py` — Biological Plausibility QC
+
+Computes adrenal H&E-specific QC before pseudo-labels are reused:
+
+- nuclei count, density, area, solidity, circularity, hole fraction, and fragmentation
+- high-recall parenchyme context for pale clear-cell cytoplasm
+- nuclei outside parenchyme, nuclei inside stroma, isolated nuclei, and topology consistency
+- cytoplasm continuity, disconnected region count, vacuolation score, and biological score
+- QC overlays for rejected nuclei, uncertain regions, confidence heatmaps, and parenchyme probability
+
+### `auto_train_loop.py` — Biologically Constrained Active Learning
+
+Runs the conservative loop:
+
+1. Bootstrap masks with Cellpose.
+2. Convert accepted nuclei/parenchyme masks to YOLOv8 segmentation labels.
+3. Train `yolov8n-seg`.
+4. Infer pseudo-labels for the next round.
+5. Reject labels that fail morphology, topology, confidence, or biological plausibility QC.
+6. Export uncertain/rejected regions for manual review before retraining.
+
+**Run:**
+```bash
+python auto_train_loop.py --max-rounds 10 --epochs 25
+```
+
+Main outputs:
+
+- `output/qc_round_<N>/` - raw image, nuclei overlay, parenchyme overlay, rejected nuclei, uncertain regions, QC panel, confidence heatmap, fragmentation map, and parenchyme probability map
+- `output/training_log.csv` - nuclei/parenchyme/topology/model metrics per round
+- `output/active_learning_datasets/round_<N>/` - YOLO datasets built only from accepted labels
+- `runs/cell_segmenter_round_<N>/` - per-round model runs
+- `runs/cell_segmenter/weights/best.pt` - best model by biological score
+
+Manual corrections can be added as `corrections/<image_stem>.txt` YOLO labels or
+as `corrections/<image_stem>_nuclei_mask.npy` and
+`corrections/<image_stem>_parenchyme_mask.npy`.
 
 ---
 

@@ -1,0 +1,10 @@
+cellpose>=4.0.1
+matplotlib
+numpy
+opencv-python-headless
+pandas
+plotly
+scikit-image
+scipy
+streamlit
+ultralytics>=8.3
