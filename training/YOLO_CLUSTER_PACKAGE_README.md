@@ -53,6 +53,7 @@ Key outputs after training:
 - `PR_curve.png`
 - `live_metrics.png`
 - `yolo_live_training_summary.json`
+- qualitative comparison PNGs under `comparison_original_gt_pred_conf*/`
 
 The notebook starts from the newest available YOLO `best.pt` under `outputs/yolo_cluster_live/*/weights/best.pt` when present. If no previous run is available, it falls back to `training_data/reference_models/cellseg1_cgh_p2_yolo_best.pt`, then `yolov8s-seg.pt`.
 
@@ -78,6 +79,14 @@ The optional prediction cell uses stricter inference defaults to reduce noisy bo
 - `conf=0.45`
 - `iou=0.40`
 - `max_det=80`
+
+The final notebook cell creates side-by-side qualitative review images:
+
+```text
+original | ground truth labels | YOLO prediction
+```
+
+and saves them under the active run directory.
 
 The notebook also copies the final best two-class model to:
 
