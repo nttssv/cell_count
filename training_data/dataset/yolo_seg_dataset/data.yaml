@@ -1,0 +1,9 @@
+path: training_data/dataset/yolo_seg_dataset
+train: images/train
+val: images/val
+
+names:
+  0: nucleus
+  1: clear_cell_boundary
+  2: compact_cell_boundary
+  3: stroma
