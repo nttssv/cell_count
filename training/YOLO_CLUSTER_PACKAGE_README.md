@@ -29,12 +29,12 @@ Run cells from top to bottom. The notebook now builds a temporary two-class data
 - keeps `clear_cell_boundary`
 - drops `compact_cell_boundary`
 - drops `stroma`
-- oversamples hard/dense train tiles: `p2_tile_12`, `p2_tile_13`, `p2_tile_14`, `p2_tile_16`, `p2_tile_18`
+- mildly oversamples hard/dense train tiles: `p2_tile_12`, `p2_tile_14`, `p2_tile_16`
 
 The generated dataset is written to:
 
 ```text
-outputs/yolo_cluster_live/datasets/yolo_2class_nucleus_clear_boundary_oversampled/
+outputs/yolo_cluster_live/datasets/yolo_2class_nucleus_clear_boundary_precision/
 ```
 
 Training outputs are written into:
@@ -56,20 +56,33 @@ Key outputs after training:
 
 The notebook starts from the newest available YOLO `best.pt` under `outputs/yolo_cluster_live/*/weights/best.pt` when present. If no previous run is available, it falls back to `training_data/reference_models/cellseg1_cgh_p2_yolo_best.pt`, then `yolov8s-seg.pt`.
 
-The active training settings use lighter boundary-preserving augmentation:
+The active training settings use precision-oriented boundary-preserving fine-tuning:
 
-- `lr0=0.0005` when fine-tuning from an existing best checkpoint
-- `mosaic=0.3`
-- `close_mosaic=40`
+- `lr0=0.00025` when fine-tuning from an existing best checkpoint
+- `mosaic=0.0`
+- `close_mosaic=0`
 - `copy_paste=0.0`
-- `degrees=5`
-- `translate=0.04`
-- `scale=0.2`
+- `degrees=2`
+- `translate=0.02`
+- `scale=0.10`
+- `hsv_h=0.01`
+- `hsv_s=0.25`
+- `hsv_v=0.20`
+- `erasing=0.0`
+- `overlap_mask=False`
+- `mask_ratio=2`
+- `cls=1.0`
+
+The optional prediction cell uses stricter inference defaults to reduce noisy boundary masks:
+
+- `conf=0.45`
+- `iou=0.40`
+- `max_det=80`
 
 The notebook also copies the final best two-class model to:
 
 ```text
-training_data/reference_models/yolo_2class_nucleus_clear_boundary_best.pt
+training_data/reference_models/yolo_2class_nucleus_clear_boundary_precision_best.pt
 ```
 
 ## Notes
