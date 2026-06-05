@@ -8,6 +8,7 @@ This package is intended to be pulled onto the GPU cluster and run from the repo
 - Base YOLO model: `yolov8s-seg.pt`
 - Previous local YOLO best model: `training_data/reference_models/cellseg1_cgh_p2_yolo_best.pt`
 - Live training notebook: `training/yolo_cluster_live_training.ipynb`
+- Python training wrapper: `training/run_yolo_segment_train.py`
 
 ## Cluster usage
 
@@ -49,4 +50,5 @@ training_data/reference_models/yolo_sam31_p2_24tiles_best.pt
 
 - Do not use old `/Volumes/T9/...` paths on the cluster.
 - The committed `data.yaml` is portable, and the notebook writes an absolute `data_cluster_runtime.yaml` at runtime.
+- The notebook calls `training/run_yolo_segment_train.py`; it does not rely on `python -m ultralytics`.
 - If another GPU training job is running, wait for it to finish unless you intentionally want to share the GPU.
