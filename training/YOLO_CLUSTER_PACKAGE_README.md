@@ -99,4 +99,5 @@ training_data/reference_models/yolo_2class_nucleus_clear_boundary_precision_best
 - Do not use old `/Volumes/T9/...` paths on the cluster.
 - The committed source `data.yaml` is portable, and the notebook writes an absolute generated `data.yaml` for the two-class runtime dataset.
 - The notebook calls `training/run_yolo_segment_train.py`; it does not rely on `python -m ultralytics`.
+- The notebook uses `workers=0` intentionally to avoid `/dev/shm` shared-memory crashes on Jupyter GPU clusters. The dataset is small, so this has little practical speed cost.
 - If another GPU training job is running, wait for it to finish unless you intentionally want to share the GPU.
