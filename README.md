@@ -19,6 +19,40 @@ streamlit run app.py
 
 ---
 
+## GPU Cluster YOLO Training
+
+For the current PA H&E YOLO segmentation workflow, keep the annotation data in
+its own repo and use this repo only for training notebooks/scripts.
+
+Data repo:
+
+```text
+https://github.com/nttssv/training_pa_he_annotation.git
+```
+
+Training notebook:
+
+```text
+training/yolo_cluster_live_training.ipynb
+```
+
+Cluster instructions:
+
+```text
+training/YOLO_CLUSTER_PACKAGE_README.md
+```
+
+The notebook builds a runtime two-class dataset:
+
+```text
+0 nucleus
+1 cell_boundary = clear_cell_boundary + GT uncertain cell boundary
+```
+
+`compact_cell_boundary` and `stroma` are dropped for this model.
+
+---
+
 ## Project Structure
 
 ```

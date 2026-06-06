@@ -1,19 +1,56 @@
 # YOLO Cluster Training Package
 
-This package is intended to be pulled onto the GPU cluster and run from the repository root.
+This training package is intentionally separated from the annotation data repo.
 
-## Included assets
+## Repos
 
-- YOLO segmentation dataset: `training_data/dataset/yolo_seg_dataset`
-- Base YOLO model: `yolov8s-seg.pt`
-- Previous local YOLO best model: `training_data/reference_models/cellseg1_cgh_p2_yolo_best.pt`
-- Live training notebook: `training/yolo_cluster_live_training.ipynb`
-- Python training wrapper: `training/run_yolo_segment_train.py`
+- Training/notebook repo: `https://github.com/nttssv/cell_count.git`
+- Data repo: `https://github.com/nttssv/training_pa_he_annotation.git`
 
-## Cluster usage
+The notebook expects the data repo at:
+
+```text
+~/Desktop/training_pa_he_annotation
+```
+
+You can override that path by setting `PA_HE_DATA_REPO` before launching Jupyter.
+
+## Cluster Setup
+
+Clone or update the data repo:
 
 ```bash
-cd /home/jovyan/Desktop/<repo-folder>
+cd ~/Desktop
+if [ -d training_pa_he_annotation ]; then
+  cd training_pa_he_annotation && git pull --ff-only
+else
+  git clone https://github.com/nttssv/training_pa_he_annotation.git
+fi
+```
+
+Clone or update the training repo:
+
+```bash
+cd ~/Desktop
+if [ -d cell_count_yolo ]; then
+  cd cell_count_yolo && git pull --ff-only
+else
+  git clone --branch codex/yolo-cluster-training-package-github https://github.com/nttssv/cell_count.git cell_count_yolo
+fi
+```
+
+Install the YOLO dependencies if the cluster reset removed them:
+
+```bash
+/opt/conda/bin/python -m pip install --user --no-cache-dir --force-reinstall \
+  "numpy==1.26.4" "opencv-python==4.10.0.84" \
+  "ultralytics==8.4.60" pandas matplotlib pyyaml tqdm tensorboard
+```
+
+Then start Jupyter from the training repo:
+
+```bash
+cd ~/Desktop/cell_count_yolo
 jupyter lab
 ```
 
@@ -23,19 +60,50 @@ Open:
 training/yolo_cluster_live_training.ipynb
 ```
 
-Run cells from top to bottom. The notebook now builds a temporary two-class dataset before training:
+Run cells from top to bottom.
 
-- keeps `nucleus`
-- keeps `clear_cell_boundary`
-- drops `compact_cell_boundary`
-- drops `stroma`
-- mildly oversamples hard/dense train tiles: `p2_tile_12`, `p2_tile_14`, `p2_tile_16`
+## What The Notebook Builds
 
-The generated dataset is written to:
+The notebook calls:
 
 ```text
-outputs/yolo_cluster_live/datasets/yolo_2class_nucleus_clear_boundary_precision/
+training/build_pa_he_2class_dataset.py
 ```
+
+It reads from the separate data repo:
+
+```text
+~/Desktop/training_pa_he_annotation/yolo_seg_dataset
+~/Desktop/training_pa_he_annotation/auxiliary_masks
+```
+
+and writes a generated runtime dataset inside the training repo:
+
+```text
+outputs/yolo_cluster_live/datasets/pa_he_2class_boundary_plus_uncertain/
+```
+
+The generated YOLO classes are:
+
+```text
+0 nucleus
+1 cell_boundary
+```
+
+`cell_boundary` is built from:
+
+```text
+clear_cell_boundary + GT uncertain cell boundary
+```
+
+These source classes are intentionally dropped:
+
+```text
+compact_cell_boundary
+stroma
+```
+
+## Training Outputs
 
 Training outputs are written into:
 
@@ -43,7 +111,7 @@ Training outputs are written into:
 outputs/yolo_cluster_live/<run_name>/
 ```
 
-Key outputs after training:
+Key outputs:
 
 - `weights/best.pt`
 - `weights/last.pt`
@@ -55,49 +123,16 @@ Key outputs after training:
 - `yolo_live_training_summary.json`
 - qualitative comparison PNGs under `comparison_original_gt_pred_conf*/`
 
-The notebook starts from the newest available YOLO `best.pt` under `outputs/yolo_cluster_live/*/weights/best.pt` when present. If no previous run is available, it falls back to `training_data/reference_models/cellseg1_cgh_p2_yolo_best.pt`, then `yolov8s-seg.pt`.
-
-The active training settings use precision-oriented boundary-preserving fine-tuning:
-
-- `lr0=0.00025` when fine-tuning from an existing best checkpoint
-- `mosaic=0.0`
-- `close_mosaic=0`
-- `copy_paste=0.0`
-- `degrees=2`
-- `translate=0.02`
-- `scale=0.10`
-- `hsv_h=0.01`
-- `hsv_s=0.25`
-- `hsv_v=0.20`
-- `erasing=0.0`
-- `overlap_mask=False`
-- `mask_ratio=2`
-- `cls=1.0`
-
-The optional prediction cell uses stricter inference defaults to reduce noisy boundary masks:
-
-- `conf=0.45`
-- `iou=0.40`
-- `max_det=80`
-
-The final notebook cell creates side-by-side qualitative review images:
+The notebook also copies the final best model to:
 
 ```text
-original | ground truth labels | YOLO prediction
-```
-
-and saves them under the active run directory.
-
-The notebook also copies the final best two-class model to:
-
-```text
-training_data/reference_models/yolo_2class_nucleus_clear_boundary_precision_best.pt
+training_data/reference_models/yolo_pa_he_2class_boundary_plus_uncertain_best.pt
 ```
 
 ## Notes
 
+- The training repo does not need to contain the annotation data.
 - Do not use old `/Volumes/T9/...` paths on the cluster.
-- The committed source `data.yaml` is portable, and the notebook writes an absolute generated `data.yaml` for the two-class runtime dataset.
+- The notebook writes a cluster-local `data.yaml` after building the runtime dataset.
 - The notebook calls `training/run_yolo_segment_train.py`; it does not rely on `python -m ultralytics`.
-- The notebook uses `workers=0` intentionally to avoid `/dev/shm` shared-memory crashes on Jupyter GPU clusters. The dataset is small, so this has little practical speed cost.
-- If another GPU training job is running, wait for it to finish unless you intentionally want to share the GPU.
+- `workers=0` is intentional to avoid `/dev/shm` shared-memory crashes on Jupyter GPU clusters.
