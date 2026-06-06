@@ -19,6 +19,44 @@ streamlit run app.py
 
 ---
 
+## GPU Cluster CellSeg1 Training
+
+For the current PA H&E CellSeg1 workflow, keep annotation data in a separate
+repo and use this repo only for training notebooks/scripts.
+
+Data repo:
+
+```text
+https://github.com/nttssv/training_pa_he_annotation.git
+```
+
+CellSeg1 training notebook:
+
+```text
+training/cellseg1_cluster_live_training.ipynb
+```
+
+Cluster instructions:
+
+```text
+training/CELLSEG1_CLUSTER_PACKAGE_README.md
+```
+
+The notebook reads:
+
+```text
+~/Desktop/training_pa_he_annotation/train/images
+~/Desktop/training_pa_he_annotation/train/masks
+```
+
+and writes a runtime copy under:
+
+```text
+outputs/cellseg1_cluster_live/datasets/pa_he_cellseg1_instance_train/
+```
+
+---
+
 ## Project Structure
 
 ```

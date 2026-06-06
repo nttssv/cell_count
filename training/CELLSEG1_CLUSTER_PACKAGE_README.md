@@ -1,39 +1,77 @@
 # CellSeg1 Cluster Training Package
 
-This package trains a CellSeg1/SAM LoRA model on the CGH PA P2 cell-boundary
-instance masks copied from the T9 YOLO training export.
+This package trains a CellSeg1/SAM LoRA model while keeping annotation data in
+a separate repo.
 
-## Included Assets
+## Repos
 
-- Portable CellSeg1 instance dataset:
-  `training_data/dataset/cellseg1_instance_train`
-- Primary training images:
-  `training_data/dataset/cellseg1_instance_train/images`
-- Primary instance masks:
-  `training_data/dataset/cellseg1_instance_train/masks`
-- Dataset metadata and QC summary:
-  `training_data/dataset/cellseg1_instance_train/dataset_summary.json`
-- Live training notebook:
-  `training/cellseg1_cluster_live_training.ipynb`
-- Python training wrapper:
-  `training/run_cellseg1_lora_train.py`
+- Training/notebook repo: `https://github.com/nttssv/cell_count.git`
+- Data repo: `https://github.com/nttssv/training_pa_he_annotation.git`
 
-## Dataset Snapshot
+The notebook expects the data repo at:
 
-- 31 tiles
-- 678 trainable cell-boundary instances
-- 557 clear-cell boundary instances
-- 121 compact-cell boundary instances
-- 766 in-tile nuclei preserved in metadata/auxiliary masks
+```text
+~/Desktop/training_pa_he_annotation
+```
 
-CellSeg1 treats clear and compact boundaries as one positive instance class.
-Class-specific clear/compact classification still needs a separate classifier
-or the existing YOLO/SAM3 multiclass route.
-
-## Cluster Usage
+You can override that path with:
 
 ```bash
-cd /home/jovyan/Desktop/<repo-folder>
+export PA_HE_DATA_REPO=/path/to/training_pa_he_annotation
+```
+
+## Cluster Setup
+
+Clone or update the data repo:
+
+```bash
+cd ~/Desktop
+if [ -d training_pa_he_annotation ]; then
+  cd training_pa_he_annotation && git pull --ff-only
+else
+  git clone https://github.com/nttssv/training_pa_he_annotation.git
+fi
+```
+
+Clone or update the CellSeg1 training repo:
+
+```bash
+cd ~/Desktop
+if [ -d cell_count_cellseg1 ]; then
+  cd cell_count_cellseg1 && git pull --ff-only
+else
+  git clone --branch codex/training-data-only-cellseg1 https://github.com/nttssv/cell_count.git cell_count_cellseg1
+fi
+```
+
+Install/repair basic Python dependencies if the cluster reset removed them:
+
+```bash
+/opt/conda/bin/python -m pip install --user --no-cache-dir \
+  "numpy<2" pillow matplotlib pyyaml opencv-python pandas tqdm
+```
+
+CellSeg1 itself is cloned by the notebook into:
+
+```text
+outputs/cellseg1_cluster_live/cellseg1_repo
+```
+
+If the current cluster environment does not have CellSeg1 dependencies, set:
+
+```bash
+export CELLSEG1_INSTALL_REQUIREMENTS=1
+```
+
+Install the correct CUDA PyTorch build separately if `torch.cuda.is_available()`
+is false.
+
+## Run
+
+Start Jupyter from the training repo:
+
+```bash
+cd ~/Desktop/cell_count_cellseg1
 jupyter lab
 ```
 
@@ -43,30 +81,75 @@ Open:
 training/cellseg1_cluster_live_training.ipynb
 ```
 
-Run cells from top to bottom. The notebook will:
+Run cells from top to bottom.
 
-1. locate the portable dataset, or rebuild a clean runtime copy from T9 if T9
-   is mounted;
-2. clone `https://github.com/Nuisal/cellseg1.git` into
-   `outputs/cellseg1_cluster_live/cellseg1_repo` if needed;
-3. optionally install CellSeg1 requirements when
-   `CELLSEG1_INSTALL_REQUIREMENTS=1`;
-4. download the SAM ViT-H checkpoint if no checkpoint path is provided;
-5. write a runtime CellSeg1 YAML config;
-6. train LoRA weights;
-7. save summaries and qualitative GT-vs-prediction images.
+## What The Notebook Uses
 
-During training, the notebook starts CellSeg1 in a subprocess, writes
-`cellseg1_train_live.log`, and refreshes an in-notebook live dashboard with GPU
-status, elapsed time, checkpoint status, and the latest training log tail.
+From the data repo, the notebook reads:
 
-Install CUDA PyTorch separately for the assigned cluster GPU before running the
-training cell. CellSeg1's repository requirements cover the image-processing
-and Streamlit dependencies but not the cluster-specific PyTorch build.
+```text
+train/images/*.png
+train/masks/*.png
+dataset_manifest.csv
+cell_instances.csv
+boundary_qc.csv
+auxiliary_masks/
+semantic_masks/
+previews/
+```
+
+It creates a runtime copy inside the training repo:
+
+```text
+outputs/cellseg1_cluster_live/datasets/pa_he_cellseg1_instance_train/
+```
+
+CellSeg1 trains one positive instance class: trainable cell boundary.
+
+The source `train/masks` currently include trainable clear and compact cell
+boundaries. `GT uncertain cell boundary`, edge/invalid masks, nuclei, and
+stroma are preserved as auxiliary/review data but are not positive CellSeg1
+instances unless the data repo export changes `train/masks`.
+
+## Dataset Snapshot
+
+Current data repo export:
+
+- 35 tiles
+- 744 trainable cell-boundary instances
+- 622 clear-cell boundary instances
+- 122 compact-cell boundary instances
+- 834 in-tile nuclei
+- 428 uncertain boundary review/ignore regions
+- 74 edge/invalid boundary ignore regions
+
+## Training Outputs
+
+Training outputs are written into:
+
+```text
+outputs/cellseg1_cluster_live/<run_name>/
+```
+
+Key outputs:
+
+- `sam_lora_cgh_p2_cell_boundary.pth`
+- `cellseg1_cgh_p2_runtime_config.yaml`
+- `cellseg1_train_live.log`
+- `cellseg1_training_summary.json`
+- `dataset_runtime_summary.json`
+- qualitative comparison PNGs under `comparison_original_gt_pred_*`
+
+The notebook also copies the final LoRA checkpoint to:
+
+```text
+training_data/reference_models/cellseg1_cgh_p2_cell_boundary_lora.pth
+```
 
 ## Useful Environment Overrides
 
 ```bash
+export PA_HE_DATA_REPO=~/Desktop/training_pa_he_annotation
 export CELLSEG1_EPOCHS=120
 export CELLSEG1_BATCH=1
 export CELLSEG1_GRAD_ACCUM=32
@@ -77,14 +160,8 @@ export CELLSEG1_LIVE_INTERVAL_SECONDS=15
 export CELLSEG1_LOG_TAIL_LINES=80
 ```
 
-The default output root is:
+For old packaged data only, set:
 
-```text
-outputs/cellseg1_cluster_live/
-```
-
-The trained LoRA checkpoint is copied to:
-
-```text
-training_data/reference_models/cellseg1_cgh_p2_cell_boundary_lora.pth
+```bash
+export CELLSEG1_ALLOW_PACKAGED_FALLBACK=1
 ```
