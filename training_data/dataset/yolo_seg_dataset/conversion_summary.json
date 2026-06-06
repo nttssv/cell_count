@@ -1,44 +1,44 @@
 {
-  "source": "training_data/dataset",
-  "output": "training_data/dataset/yolo_seg_dataset",
-  "data_yaml": "training_data/dataset/yolo_seg_dataset/data.yaml",
+  "source": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2",
+  "output": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset",
+  "data_yaml": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/data.yaml",
   "classes": {
     "0": "nucleus",
     "1": "clear_cell_boundary",
     "2": "compact_cell_boundary",
     "3": "stroma"
   },
-  "tile_count": 20,
+  "tile_count": 31,
   "splits": {
-    "train": 16,
-    "val": 4
+    "train": 25,
+    "val": 6
   },
   "class_counts": {
-    "nucleus": 510,
-    "clear_cell_boundary": 396,
-    "stroma": 93,
-    "compact_cell_boundary": 78
+    "nucleus": 765,
+    "clear_cell_boundary": 557,
+    "stroma": 119,
+    "compact_cell_boundary": 121
   },
   "split_class_counts": {
     "train": {
-      "nucleus": 424,
-      "clear_cell_boundary": 318,
-      "stroma": 72,
-      "compact_cell_boundary": 71
+      "nucleus": 637,
+      "clear_cell_boundary": 451,
+      "stroma": 92,
+      "compact_cell_boundary": 112
     },
     "val": {
-      "nucleus": 86,
-      "clear_cell_boundary": 78,
-      "stroma": 21,
-      "compact_cell_boundary": 7
+      "nucleus": 128,
+      "clear_cell_boundary": 106,
+      "stroma": 27,
+      "compact_cell_boundary": 9
     }
   },
   "tiles": [
     {
       "tile_id": "p2_tile_01",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_01.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_01.txt",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_01.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_01.txt",
       "labels": 43,
       "class_counts": {
         "nucleus": 19,
@@ -49,12 +49,12 @@
     {
       "tile_id": "p2_tile_02",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_02.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_02.txt",
-      "labels": 39,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_02.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_02.txt",
+      "labels": 41,
       "class_counts": {
-        "nucleus": 17,
-        "clear_cell_boundary": 15,
+        "nucleus": 18,
+        "clear_cell_boundary": 16,
         "compact_cell_boundary": 2,
         "stroma": 5
       }
@@ -62,8 +62,8 @@
     {
       "tile_id": "p2_tile_03",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_03.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_03.txt",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_03.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_03.txt",
       "labels": 54,
       "class_counts": {
         "nucleus": 25,
@@ -74,44 +74,44 @@
     {
       "tile_id": "p2_tile_04",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_04.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_04.txt",
-      "labels": 38,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_04.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_04.txt",
+      "labels": 41,
       "class_counts": {
-        "nucleus": 18,
-        "clear_cell_boundary": 14,
+        "nucleus": 22,
+        "clear_cell_boundary": 13,
         "stroma": 6
       }
     },
     {
       "tile_id": "p2_tile_05",
       "split": "val",
-      "image": "training_data/dataset/yolo_seg_dataset/images/val/p2_tile_05.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/val/p2_tile_05.txt",
-      "labels": 49,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/val/p2_tile_05.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/val/p2_tile_05.txt",
+      "labels": 47,
       "class_counts": {
         "nucleus": 22,
-        "clear_cell_boundary": 21,
+        "clear_cell_boundary": 19,
         "stroma": 6
       }
     },
     {
       "tile_id": "p2_tile_06",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_06.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_06.txt",
-      "labels": 38,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_06.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_06.txt",
+      "labels": 37,
       "class_counts": {
         "nucleus": 17,
-        "clear_cell_boundary": 17,
+        "clear_cell_boundary": 16,
         "stroma": 4
       }
     },
     {
       "tile_id": "p2_tile_07",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_07.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_07.txt",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_07.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_07.txt",
       "labels": 47,
       "class_counts": {
         "nucleus": 21,
@@ -123,32 +123,32 @@
     {
       "tile_id": "p2_tile_08",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_08.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_08.txt",
-      "labels": 39,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_08.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_08.txt",
+      "labels": 36,
       "class_counts": {
         "nucleus": 17,
-        "clear_cell_boundary": 17,
+        "clear_cell_boundary": 14,
         "stroma": 5
       }
     },
     {
       "tile_id": "p2_tile_09",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_09.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_09.txt",
-      "labels": 45,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_09.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_09.txt",
+      "labels": 44,
       "class_counts": {
         "nucleus": 24,
-        "clear_cell_boundary": 17,
+        "clear_cell_boundary": 16,
         "stroma": 4
       }
     },
     {
       "tile_id": "p2_tile_10",
       "split": "val",
-      "image": "training_data/dataset/yolo_seg_dataset/images/val/p2_tile_10.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/val/p2_tile_10.txt",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/val/p2_tile_10.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/val/p2_tile_10.txt",
       "labels": 46,
       "class_counts": {
         "nucleus": 20,
@@ -159,8 +159,8 @@
     {
       "tile_id": "p2_tile_11",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_11.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_11.txt",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_11.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_11.txt",
       "labels": 62,
       "class_counts": {
         "nucleus": 36,
@@ -172,25 +172,25 @@
     {
       "tile_id": "p2_tile_12",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_12.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_12.txt",
-      "labels": 106,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_12.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_12.txt",
+      "labels": 105,
       "class_counts": {
         "nucleus": 54,
-        "clear_cell_boundary": 25,
         "compact_cell_boundary": 24,
+        "clear_cell_boundary": 24,
         "stroma": 3
       }
     },
     {
       "tile_id": "p2_tile_13",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_13.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_13.txt",
-      "labels": 74,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_13.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_13.txt",
+      "labels": 72,
       "class_counts": {
         "nucleus": 35,
-        "clear_cell_boundary": 31,
+        "clear_cell_boundary": 29,
         "compact_cell_boundary": 4,
         "stroma": 4
       }
@@ -198,8 +198,8 @@
     {
       "tile_id": "p2_tile_14",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_14.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_14.txt",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_14.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_14.txt",
       "labels": 76,
       "class_counts": {
         "nucleus": 37,
@@ -211,12 +211,12 @@
     {
       "tile_id": "p2_tile_15",
       "split": "val",
-      "image": "training_data/dataset/yolo_seg_dataset/images/val/p2_tile_15.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/val/p2_tile_15.txt",
-      "labels": 54,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/val/p2_tile_15.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/val/p2_tile_15.txt",
+      "labels": 53,
       "class_counts": {
         "nucleus": 24,
-        "clear_cell_boundary": 18,
+        "clear_cell_boundary": 17,
         "compact_cell_boundary": 6,
         "stroma": 6
       }
@@ -224,12 +224,12 @@
     {
       "tile_id": "p2_tile_16",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_16.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_16.txt",
-      "labels": 77,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_16.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_16.txt",
+      "labels": 76,
       "class_counts": {
         "nucleus": 37,
-        "clear_cell_boundary": 20,
+        "clear_cell_boundary": 19,
         "compact_cell_boundary": 17,
         "stroma": 3
       }
@@ -237,25 +237,25 @@
     {
       "tile_id": "p2_tile_17",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_17.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_17.txt",
-      "labels": 43,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_17.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_17.txt",
+      "labels": 42,
       "class_counts": {
         "nucleus": 20,
         "compact_cell_boundary": 2,
-        "clear_cell_boundary": 17,
+        "clear_cell_boundary": 16,
         "stroma": 4
       }
     },
     {
       "tile_id": "p2_tile_18",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_18.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_18.txt",
-      "labels": 52,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_18.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_18.txt",
+      "labels": 51,
       "class_counts": {
         "nucleus": 24,
-        "clear_cell_boundary": 15,
+        "clear_cell_boundary": 14,
         "compact_cell_boundary": 8,
         "stroma": 5
       }
@@ -263,8 +263,8 @@
     {
       "tile_id": "p2_tile_19",
       "split": "train",
-      "image": "training_data/dataset/yolo_seg_dataset/images/train/p2_tile_19.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/train/p2_tile_19.txt",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/p2_tile_19.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/p2_tile_19.txt",
       "labels": 52,
       "class_counts": {
         "nucleus": 23,
@@ -276,14 +276,153 @@
     {
       "tile_id": "p2_tile_20",
       "split": "val",
-      "image": "training_data/dataset/yolo_seg_dataset/images/val/p2_tile_20.png",
-      "label": "training_data/dataset/yolo_seg_dataset/labels/val/p2_tile_20.txt",
-      "labels": 43,
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/val/p2_tile_20.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/val/p2_tile_20.txt",
+      "labels": 41,
       "class_counts": {
         "nucleus": 20,
-        "clear_cell_boundary": 19,
+        "clear_cell_boundary": 17,
         "compact_cell_boundary": 1,
         "stroma": 3
+      }
+    },
+    {
+      "tile_id": "yolo_tile_21",
+      "split": "train",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/yolo_tile_21.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/yolo_tile_21.txt",
+      "labels": 79,
+      "class_counts": {
+        "nucleus": 38,
+        "compact_cell_boundary": 19,
+        "clear_cell_boundary": 19,
+        "stroma": 3
+      }
+    },
+    {
+      "tile_id": "yolo_tile_22",
+      "split": "train",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/yolo_tile_22.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/yolo_tile_22.txt",
+      "labels": 41,
+      "class_counts": {
+        "nucleus": 22,
+        "compact_cell_boundary": 9,
+        "clear_cell_boundary": 9,
+        "stroma": 1
+      }
+    },
+    {
+      "tile_id": "yolo_tile_23",
+      "split": "train",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/yolo_tile_23.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/yolo_tile_23.txt",
+      "labels": 50,
+      "class_counts": {
+        "nucleus": 25,
+        "clear_cell_boundary": 12,
+        "compact_cell_boundary": 10,
+        "stroma": 3
+      }
+    },
+    {
+      "tile_id": "yolo_tile_24",
+      "split": "train",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/yolo_tile_24.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/yolo_tile_24.txt",
+      "labels": 53,
+      "class_counts": {
+        "nucleus": 27,
+        "clear_cell_boundary": 22,
+        "compact_cell_boundary": 1,
+        "stroma": 3
+      }
+    },
+    {
+      "tile_id": "yolo_tile_25",
+      "split": "val",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/val/yolo_tile_25.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/val/yolo_tile_25.txt",
+      "labels": 46,
+      "class_counts": {
+        "nucleus": 25,
+        "clear_cell_boundary": 17,
+        "compact_cell_boundary": 2,
+        "stroma": 2
+      }
+    },
+    {
+      "tile_id": "yolo_tile_26",
+      "split": "train",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/yolo_tile_26.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/yolo_tile_26.txt",
+      "labels": 35,
+      "class_counts": {
+        "nucleus": 17,
+        "clear_cell_boundary": 16,
+        "stroma": 2
+      }
+    },
+    {
+      "tile_id": "yolo_tile_27",
+      "split": "train",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/yolo_tile_27.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/yolo_tile_27.txt",
+      "labels": 43,
+      "class_counts": {
+        "nucleus": 22,
+        "clear_cell_boundary": 19,
+        "stroma": 2
+      }
+    },
+    {
+      "tile_id": "yolo_tile_28",
+      "split": "train",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/yolo_tile_28.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/yolo_tile_28.txt",
+      "labels": 34,
+      "class_counts": {
+        "nucleus": 19,
+        "clear_cell_boundary": 12,
+        "compact_cell_boundary": 1,
+        "stroma": 2
+      }
+    },
+    {
+      "tile_id": "yolo_tile_29",
+      "split": "train",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/yolo_tile_29.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/yolo_tile_29.txt",
+      "labels": 35,
+      "class_counts": {
+        "nucleus": 17,
+        "clear_cell_boundary": 14,
+        "compact_cell_boundary": 1,
+        "stroma": 3
+      }
+    },
+    {
+      "tile_id": "yolo_tile_30",
+      "split": "val",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/val/yolo_tile_30.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/val/yolo_tile_30.txt",
+      "labels": 37,
+      "class_counts": {
+        "nucleus": 17,
+        "clear_cell_boundary": 16,
+        "stroma": 4
+      }
+    },
+    {
+      "tile_id": "yolo_tile_31",
+      "split": "train",
+      "image": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/images/train/yolo_tile_31.png",
+      "label": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2/yolo_seg_dataset/labels/train/yolo_tile_31.txt",
+      "labels": 43,
+      "class_counts": {
+        "nucleus": 21,
+        "clear_cell_boundary": 21,
+        "stroma": 1
       }
     }
   ],

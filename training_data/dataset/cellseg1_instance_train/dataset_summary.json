@@ -1,0 +1,613 @@
+{
+  "source": "/Volumes/T9/CGH_PA_annotation_1/training_data/cellseg1_cgh_p2",
+  "dataset": "training_data/dataset/cellseg1_instance_train",
+  "image_count": 31,
+  "mask_count": 31,
+  "preview_count": 31,
+  "auxiliary_mask_count": 217,
+  "semantic_mask_count": 31,
+  "tile_count": 31,
+  "trainable_instances": 678,
+  "clear_trainable": 557,
+  "compact_trainable": 121,
+  "edge_or_invalid_boundary_ignore": 74,
+  "uncertain_ignore_regions": 350,
+  "nuclei_in_tile": 766,
+  "notes": [
+    "Copied from T9 YOLO/CellSeg1 training export with AppleDouble files excluded.",
+    "CellSeg1 primary inputs are images/ and masks/. Auxiliary masks are preserved for QC and future detector variants.",
+    "CellSeg1 training treats clear and compact boundaries as one positive cell-boundary instance class.",
+    "Temporary/duplicate QuPath training tiles are excluded by exporter; final set includes P2 tile NN and yolo_tile_NN annotations."
+  ],
+  "tiles": [
+    {
+      "tile_id": "p2_tile_01",
+      "image_file": "images/p2_tile_01.png",
+      "mask_file": "masks/p2_tile_01.png",
+      "image_size": {
+        "width": 513,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 513
+      },
+      "instances": 19,
+      "max_label": 19,
+      "labels_contiguous": true,
+      "clear_trainable": 19,
+      "compact_trainable": 0,
+      "nuclei_in_tile": 19
+    },
+    {
+      "tile_id": "p2_tile_02",
+      "image_file": "images/p2_tile_02.png",
+      "mask_file": "masks/p2_tile_02.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 18,
+      "max_label": 18,
+      "labels_contiguous": true,
+      "clear_trainable": 16,
+      "compact_trainable": 2,
+      "nuclei_in_tile": 18
+    },
+    {
+      "tile_id": "p2_tile_03",
+      "image_file": "images/p2_tile_03.png",
+      "mask_file": "masks/p2_tile_03.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 25,
+      "max_label": 25,
+      "labels_contiguous": true,
+      "clear_trainable": 25,
+      "compact_trainable": 0,
+      "nuclei_in_tile": 25
+    },
+    {
+      "tile_id": "p2_tile_04",
+      "image_file": "images/p2_tile_04.png",
+      "mask_file": "masks/p2_tile_04.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 13,
+      "max_label": 13,
+      "labels_contiguous": true,
+      "clear_trainable": 13,
+      "compact_trainable": 0,
+      "nuclei_in_tile": 22
+    },
+    {
+      "tile_id": "p2_tile_05",
+      "image_file": "images/p2_tile_05.png",
+      "mask_file": "masks/p2_tile_05.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 19,
+      "max_label": 19,
+      "labels_contiguous": true,
+      "clear_trainable": 19,
+      "compact_trainable": 0,
+      "nuclei_in_tile": 22
+    },
+    {
+      "tile_id": "p2_tile_06",
+      "image_file": "images/p2_tile_06.png",
+      "mask_file": "masks/p2_tile_06.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 16,
+      "max_label": 16,
+      "labels_contiguous": true,
+      "clear_trainable": 16,
+      "compact_trainable": 0,
+      "nuclei_in_tile": 17
+    },
+    {
+      "tile_id": "p2_tile_07",
+      "image_file": "images/p2_tile_07.png",
+      "mask_file": "masks/p2_tile_07.png",
+      "image_size": {
+        "width": 512,
+        "height": 518
+      },
+      "mask_shape": {
+        "height": 518,
+        "width": 512
+      },
+      "instances": 21,
+      "max_label": 21,
+      "labels_contiguous": true,
+      "clear_trainable": 19,
+      "compact_trainable": 2,
+      "nuclei_in_tile": 21
+    },
+    {
+      "tile_id": "p2_tile_08",
+      "image_file": "images/p2_tile_08.png",
+      "mask_file": "masks/p2_tile_08.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 14,
+      "max_label": 14,
+      "labels_contiguous": true,
+      "clear_trainable": 14,
+      "compact_trainable": 0,
+      "nuclei_in_tile": 17
+    },
+    {
+      "tile_id": "p2_tile_09",
+      "image_file": "images/p2_tile_09.png",
+      "mask_file": "masks/p2_tile_09.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 16,
+      "max_label": 16,
+      "labels_contiguous": true,
+      "clear_trainable": 16,
+      "compact_trainable": 0,
+      "nuclei_in_tile": 24
+    },
+    {
+      "tile_id": "p2_tile_10",
+      "image_file": "images/p2_tile_10.png",
+      "mask_file": "masks/p2_tile_10.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 20,
+      "max_label": 20,
+      "labels_contiguous": true,
+      "clear_trainable": 20,
+      "compact_trainable": 0,
+      "nuclei_in_tile": 20
+    },
+    {
+      "tile_id": "p2_tile_11",
+      "image_file": "images/p2_tile_11.png",
+      "mask_file": "masks/p2_tile_11.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 21,
+      "max_label": 21,
+      "labels_contiguous": true,
+      "clear_trainable": 19,
+      "compact_trainable": 2,
+      "nuclei_in_tile": 36
+    },
+    {
+      "tile_id": "p2_tile_12",
+      "image_file": "images/p2_tile_12.png",
+      "mask_file": "masks/p2_tile_12.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 48,
+      "max_label": 48,
+      "labels_contiguous": true,
+      "clear_trainable": 24,
+      "compact_trainable": 24,
+      "nuclei_in_tile": 54
+    },
+    {
+      "tile_id": "p2_tile_13",
+      "image_file": "images/p2_tile_13.png",
+      "mask_file": "masks/p2_tile_13.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 33,
+      "max_label": 33,
+      "labels_contiguous": true,
+      "clear_trainable": 29,
+      "compact_trainable": 4,
+      "nuclei_in_tile": 35
+    },
+    {
+      "tile_id": "p2_tile_14",
+      "image_file": "images/p2_tile_14.png",
+      "mask_file": "masks/p2_tile_14.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 35,
+      "max_label": 35,
+      "labels_contiguous": true,
+      "clear_trainable": 26,
+      "compact_trainable": 9,
+      "nuclei_in_tile": 37
+    },
+    {
+      "tile_id": "p2_tile_15",
+      "image_file": "images/p2_tile_15.png",
+      "mask_file": "masks/p2_tile_15.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 23,
+      "max_label": 23,
+      "labels_contiguous": true,
+      "clear_trainable": 17,
+      "compact_trainable": 6,
+      "nuclei_in_tile": 24
+    },
+    {
+      "tile_id": "p2_tile_16",
+      "image_file": "images/p2_tile_16.png",
+      "mask_file": "masks/p2_tile_16.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 36,
+      "max_label": 36,
+      "labels_contiguous": true,
+      "clear_trainable": 19,
+      "compact_trainable": 17,
+      "nuclei_in_tile": 37
+    },
+    {
+      "tile_id": "p2_tile_17",
+      "image_file": "images/p2_tile_17.png",
+      "mask_file": "masks/p2_tile_17.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 18,
+      "max_label": 18,
+      "labels_contiguous": true,
+      "clear_trainable": 16,
+      "compact_trainable": 2,
+      "nuclei_in_tile": 20
+    },
+    {
+      "tile_id": "p2_tile_18",
+      "image_file": "images/p2_tile_18.png",
+      "mask_file": "masks/p2_tile_18.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 22,
+      "max_label": 22,
+      "labels_contiguous": true,
+      "clear_trainable": 14,
+      "compact_trainable": 8,
+      "nuclei_in_tile": 24
+    },
+    {
+      "tile_id": "p2_tile_19",
+      "image_file": "images/p2_tile_19.png",
+      "mask_file": "masks/p2_tile_19.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 23,
+      "max_label": 23,
+      "labels_contiguous": true,
+      "clear_trainable": 22,
+      "compact_trainable": 1,
+      "nuclei_in_tile": 23
+    },
+    {
+      "tile_id": "p2_tile_20",
+      "image_file": "images/p2_tile_20.png",
+      "mask_file": "masks/p2_tile_20.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 18,
+      "max_label": 18,
+      "labels_contiguous": true,
+      "clear_trainable": 17,
+      "compact_trainable": 1,
+      "nuclei_in_tile": 20
+    },
+    {
+      "tile_id": "yolo_tile_21",
+      "image_file": "images/yolo_tile_21.png",
+      "mask_file": "masks/yolo_tile_21.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 38,
+      "max_label": 38,
+      "labels_contiguous": true,
+      "clear_trainable": 19,
+      "compact_trainable": 19,
+      "nuclei_in_tile": 38
+    },
+    {
+      "tile_id": "yolo_tile_22",
+      "image_file": "images/yolo_tile_22.png",
+      "mask_file": "masks/yolo_tile_22.png",
+      "image_size": {
+        "width": 513,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 513
+      },
+      "instances": 18,
+      "max_label": 18,
+      "labels_contiguous": true,
+      "clear_trainable": 9,
+      "compact_trainable": 9,
+      "nuclei_in_tile": 22
+    },
+    {
+      "tile_id": "yolo_tile_23",
+      "image_file": "images/yolo_tile_23.png",
+      "mask_file": "masks/yolo_tile_23.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 22,
+      "max_label": 22,
+      "labels_contiguous": true,
+      "clear_trainable": 12,
+      "compact_trainable": 10,
+      "nuclei_in_tile": 25
+    },
+    {
+      "tile_id": "yolo_tile_24",
+      "image_file": "images/yolo_tile_24.png",
+      "mask_file": "masks/yolo_tile_24.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 23,
+      "max_label": 23,
+      "labels_contiguous": true,
+      "clear_trainable": 22,
+      "compact_trainable": 1,
+      "nuclei_in_tile": 27
+    },
+    {
+      "tile_id": "yolo_tile_25",
+      "image_file": "images/yolo_tile_25.png",
+      "mask_file": "masks/yolo_tile_25.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 19,
+      "max_label": 19,
+      "labels_contiguous": true,
+      "clear_trainable": 17,
+      "compact_trainable": 2,
+      "nuclei_in_tile": 25
+    },
+    {
+      "tile_id": "yolo_tile_26",
+      "image_file": "images/yolo_tile_26.png",
+      "mask_file": "masks/yolo_tile_26.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 16,
+      "max_label": 16,
+      "labels_contiguous": true,
+      "clear_trainable": 16,
+      "compact_trainable": 0,
+      "nuclei_in_tile": 17
+    },
+    {
+      "tile_id": "yolo_tile_27",
+      "image_file": "images/yolo_tile_27.png",
+      "mask_file": "masks/yolo_tile_27.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 19,
+      "max_label": 19,
+      "labels_contiguous": true,
+      "clear_trainable": 19,
+      "compact_trainable": 0,
+      "nuclei_in_tile": 22
+    },
+    {
+      "tile_id": "yolo_tile_28",
+      "image_file": "images/yolo_tile_28.png",
+      "mask_file": "masks/yolo_tile_28.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 13,
+      "max_label": 13,
+      "labels_contiguous": true,
+      "clear_trainable": 12,
+      "compact_trainable": 1,
+      "nuclei_in_tile": 20
+    },
+    {
+      "tile_id": "yolo_tile_29",
+      "image_file": "images/yolo_tile_29.png",
+      "mask_file": "masks/yolo_tile_29.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 15,
+      "max_label": 15,
+      "labels_contiguous": true,
+      "clear_trainable": 14,
+      "compact_trainable": 1,
+      "nuclei_in_tile": 17
+    },
+    {
+      "tile_id": "yolo_tile_30",
+      "image_file": "images/yolo_tile_30.png",
+      "mask_file": "masks/yolo_tile_30.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 16,
+      "max_label": 16,
+      "labels_contiguous": true,
+      "clear_trainable": 16,
+      "compact_trainable": 0,
+      "nuclei_in_tile": 17
+    },
+    {
+      "tile_id": "yolo_tile_31",
+      "image_file": "images/yolo_tile_31.png",
+      "mask_file": "masks/yolo_tile_31.png",
+      "image_size": {
+        "width": 512,
+        "height": 512
+      },
+      "mask_shape": {
+        "height": 512,
+        "width": 512
+      },
+      "instances": 21,
+      "max_label": 21,
+      "labels_contiguous": true,
+      "clear_trainable": 21,
+      "compact_trainable": 0,
+      "nuclei_in_tile": 21
+    }
+  ]
+}
